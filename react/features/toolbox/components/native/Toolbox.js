@@ -15,6 +15,8 @@ import { isToolboxVisible } from '../../functions';
 
 import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
+import { AudioRouteButton } from '../../../mobile/audio-mode';
+import ToggleCameraButton from './ToggleCameraButton';
 
 import OverflowMenuButton from './OverflowMenuButton';
 import styles from './styles';
@@ -154,7 +156,7 @@ class Toolbox extends Component<Props, State> {
             <View
                 pointerEvents = 'box-none'
                 style = { styles.toolbar }>
-                {
+                {/* {
                     _chatEnabled
                         && <ChatButton
                             styles = { buttonStylesBorderless }
@@ -167,7 +169,10 @@ class Toolbox extends Component<Props, State> {
                         && <InfoDialogButton
                             styles = { buttonStyles }
                             toggledStyles = { toggledButtonStyles } />
-                }
+                } */}
+                <ToggleCameraButton
+                    styles = { buttonStyles }
+                    toggledStyles = { toggledButtonStyles } />
                 <AudioMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
@@ -176,8 +181,8 @@ class Toolbox extends Component<Props, State> {
                 <VideoMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
-                <OverflowMenuButton
-                    styles = { buttonStylesBorderless }
+                <AudioRouteButton
+                    styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
             </View>
         );

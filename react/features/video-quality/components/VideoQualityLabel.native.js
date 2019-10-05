@@ -40,7 +40,7 @@ class VideoQualityLabel extends AbstractVideoQualityLabel<Props> {
     render() {
         const { _audioOnly, style, t } = this.props;
 
-        if (!_audioOnly) {
+        if (_audioOnly) {
             // We don't have info about the quality so no need for the indicator
             return null;
         }
