@@ -170,7 +170,7 @@ class Toolbox extends Component<Props, State> {
                             styles = { buttonStyles }
                             toggledStyles = { toggledButtonStyles } />
                 } */}
-                <ToggleCameraButton
+                <AudioRouteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
                 <AudioMuteButton
@@ -181,7 +181,7 @@ class Toolbox extends Component<Props, State> {
                 <VideoMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
-                <AudioRouteButton
+                <ToggleCameraButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
             </View>
