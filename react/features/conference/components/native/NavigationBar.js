@@ -55,7 +55,7 @@ class NavigationBar extends Component<Props> {
                 style = { styles.navBarWrapper }>
                 <PictureInPictureButton
                     styles = { styles.navBarButton } />
-                <View
+                {/* <View
                     pointerEvents = 'box-none'
                     style = { styles.roomNameWrapper }>
                     <Text
@@ -63,7 +63,7 @@ class NavigationBar extends Component<Props> {
                         style = { styles.roomName }>
                         { this.props._meetingName }
                     </Text>
-                </View>
+                </View> */}
             </View>
         ];
     }
