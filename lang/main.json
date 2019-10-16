@@ -20,11 +20,11 @@
     "audioDevices": {
         "bluetooth": "蓝牙",
         "headphones": "耳机",
-        "phone": "电话",
-        "speaker": "发言人"
+        "phone": "听筒",
+        "speaker": "扬声器"
     },
     "audioOnly": {
-        "audioOnly": "只有音频"
+        "audioOnly": "语音"
     },
     "calendarSync": {
         "addMeetingURL": "添加会议链接",
@@ -40,7 +40,7 @@
         "noEvents": "近期无活动。",
         "ongoingMeeting": "正在进行的会议",
         "permissionButton": "打开设置",
-        "permissionMessage": "在应用中查看会议需要日历权限。",
+        "permissionMessage": "在应用中查看日历权限。",
         "refresh": "刷新日历",
         "today": "今日"
     },
@@ -54,10 +54,10 @@
         "title": "聊天"
     },
     "connectingOverlay": {
-        "joiningRoom": "会议连接中..."
+        "joiningRoom": "开启通话中..."
     },
     "connection": {
-        "ATTACHED": "已接入",
+        "ATTACHED": "已进入",
         "AUTHENTICATING": "认证中",
         "AUTHFAIL": "认证失败",
         "CONNECTED": "连接中...",
@@ -179,7 +179,7 @@
         "lockMessage": "锁定会议失败。",
         "lockRoom": "",
         "lockTitle": "锁定失败",
-        "logoutQuestion": "你确定要登出并停止会议吗？",
+        "logoutQuestion": "你确定要退出登录并停止会议吗？",
         "logoutTitle": "登出",
         "maxUsersLimitReached": "",
         "maxUsersLimitReachedTitle": "",
@@ -649,7 +649,7 @@
     },
     "videoStatus": {
         "audioOnly": "AUD声音",
-        "audioOnlyExpanded": "您处于仅用音讯模式。该模式可节省频宽，但无法看见他人影像。",
+        "audioOnlyExpanded": "您处于语音模式。该模式可节省频宽，但无法看见他人影像。",
         "callQuality": "",
         "hd": "高清",
         "highDefinition": "高清",
@@ -676,32 +676,32 @@
         "show": "",
         "videomute": ""
     },
-    "welcomepage": {
-        "accessibilityLabel": {
-            "join": "点击加入",
-            "roomname": "请输入房间名"
-        },
-        "appDescription": "快来使用全队视频通话。您可以邀请任何您认识的人。{{app}} 是一个完全加密，100% 开源的视频会议解决方案。无需注册帐号，无限时免费使用。",
-        "audioVideoSwitch": {
-            "audio": "语音",
-            "video": "视频"
-        },
-        "calendar": "日历",
-        "connectCalendarButton": "连接你的日历",
-        "connectCalendarText": "连接你的日历以查看你在{{app}}中的全部会议。此外，新增{{provider}} 会议到你的日历中，点击即可启动。",
-        "enterRoomTitle": "开启一个新的会议",
-        "go": "开始",
-        "join": "加入",
-        "info": "信息",
-        "privacy": "隐私",
-        "recentList": "最近",
-        "recentListDelete": "删除",
-        "recentListEmpty": "目前没有使用。与你的团队成员聊天，即可在此处找到最近所有会议。",
-        "reducedUIText": "",
-        "roomname": "请输入房间名",
-        "roomnameHint": "请输入您想加入房间的 URL 地址或者房间名。您也可以想个房名创建房间，只要其他人输入和您一样的名称就能加入您的房间。",
-        "sendFeedback": "发送反馈",
-        "terms": "条款",
-        "title": "安全，功能完善和完全开源的视频会议"
-    }
+  "welcomepage": {
+    "accessibilityLabel": {
+      "join": "点击加入",
+      "roomname": "请输入房间号"
+    },
+    "appDescription": "快来使用全队视频通话。您可以邀请任何您认识的人。{{app}} 是一个完全加密，100% 开源的视频会议解决方案。无需注册帐号，无限时免费使用。",
+    "audioVideoSwitch": {
+      "audio": "语音",
+      "video": "视频"
+    },
+    "calendar": "日历",
+    "connectCalendarButton": "连接你的日历",
+    "connectCalendarText": "连接你的日历以查看你在{{app}}中的全部会议。此外，新增{{provider}} 会议到你的日历中，点击即可启动。",
+    "enterRoomTitle": "开启一个新的会议",
+    "go": "开始",
+    "join": "加入",
+    "info": "信息",
+    "privacy": "隐私",
+    "recentList": "最近",
+    "recentListDelete": "删除",
+    "recentListEmpty": "目前没有使用。与你的团队成员聊天，即可在此处找到最近所有会议。",
+    "reducedUIText": "",
+    "roomname": "请输入房间号",
+    "roomnameHint": "请输入您要加入的房间号。您也可以创建房间，只要其他人输入和您一样的房间号就能加入您的房间。",
+    "sendFeedback": "发送反馈",
+    "terms": "条款",
+    "title": "安全，功能完善和完全开源的视频会议"
+  }
 }
