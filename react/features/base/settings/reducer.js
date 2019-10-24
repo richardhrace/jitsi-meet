@@ -21,6 +21,7 @@ const DEFAULT_STATE = {
     audioOutputDeviceId: undefined,
     avatarID: undefined,
     avatarURL: undefined,
+    mainAvatarURL: undefined,
     cameraDeviceId: undefined,
     displayName: undefined,
     email: undefined,

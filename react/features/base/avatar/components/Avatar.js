@@ -176,7 +176,7 @@ class Avatar<P: Props> extends PureComponent<P, State> {
  * @returns {Props}
  */
 export function _mapStateToProps(state: Object, ownProps: Props) {
-    const { colorBase, displayName, participantId } = ownProps;
+    const { colorBase, displayName, participantId, avatarUrl } = ownProps;
     const _participant: ?Object = participantId && getParticipantById(state, participantId);
     const _initialsBase = _participant?.name ?? displayName;
     const screenShares = state['features/video-layout'].screenShares || [];
@@ -186,6 +186,8 @@ export function _mapStateToProps(state: Object, ownProps: Props) {
     if (participantId && screenShares.includes(participantId)) {
         _loadableAvatarUrl = IconShareDesktop;
     }
+
+    if ( avatarUrl ) _loadableAvatarUrl = avatarUrl;
 
     return {
         _initialsBase,

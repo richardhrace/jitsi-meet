@@ -18,6 +18,7 @@ import { connect } from '../../base/redux';
 import { AbstractVideoMuteButton } from '../../base/toolbox';
 import type { AbstractButtonProps } from '../../base/toolbox';
 import { isLocalTrackMuted } from '../../base/tracks';
+import { updateSettings } from '../../base/settings';
 import UIEvents from '../../../../service/UI/UIEvents';
 
 declare var APP: Object;
@@ -64,6 +65,7 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
 
         // Bind event handlers so they are only bound once per instance.
         this._onKeyboardShortcut = this._onKeyboardShortcut.bind(this);
+        this._onStartAudioOnlyChange = this._onStartAudioOnlyChange.bind(this);
     }
 
     /**
@@ -90,6 +92,14 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
     componentWillUnmount() {
         typeof APP === 'undefined'
             || APP.keyboardshortcut.unregisterShortcut('V');
+    }
+
+    _onStartAudioOnlyChange(startAudioOnly) {
+        const { dispatch } = this.props;
+
+        dispatch(updateSettings({
+            startAudioOnly
+        }));
     }
 
     /**
@@ -147,6 +157,10 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
         // emitted.
         typeof APP === 'undefined'
             || APP.UI.emitEvent(UIEvents.VIDEO_MUTED, videoMuted, true);
+        
+        if (this.props._settings.startAudioOnly && !videoMuted) {
+            this._onStartAudioOnlyChange(videoMuted);
+        }
     }
 }
 
@@ -167,7 +181,8 @@ function _mapStateToProps(state): Object {
 
     return {
         _audioOnly: Boolean(audioOnly),
-        _videoMuted: isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO)
+        _videoMuted: isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO),
+        _settings: state['features/base/settings']
     };
 }
 

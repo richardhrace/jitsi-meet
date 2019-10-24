@@ -14,25 +14,48 @@ type Props = {
     /**
      * The local participant.
      */
-    _localParticipant: Object
+    _localParticipant: Object,
+    setDisableLocal: Function
 };
+
+type State = {
+    participant: Object,
+}
 
 /**
  * Component to render a local thumbnail that can be separated from the
  * remote thumbnails later.
  */
-class LocalThumbnail extends Component<Props> {
+class LocalThumbnail extends Component<Props, State> {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            participant: props._localParticipant
+        }
+        this.setParticipant = this.setParticipant.bind(this);
+    }
+
+    setParticipant(participant) {
+        this.setState({
+            participant
+        });
+    }
     /**
      * Implements React Component's render.
      *
      * @inheritdoc
      */
     render() {
-        const { _localParticipant } = this.props;
+        const { _localParticipant, setDisableLocal } = this.props;
+        const { participant } = this.state;
 
         return (
             <View style = { styles.localThumbnail }>
-                <Thumbnail participant = { _localParticipant } />
+                <Thumbnail
+                    setDisableLocal = { setDisableLocal }
+                    setParticipant = { this.setParticipant }
+                    participant = { participant } />
             </View>
         );
     }

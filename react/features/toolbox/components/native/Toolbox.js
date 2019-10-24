@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View } from 'react-native';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
@@ -149,42 +149,118 @@ class Toolbox extends Component<Props, State> {
      * @returns {React$Node}
      */
     _renderToolbar() {
-        const { _chatEnabled, _styles } = this.props;
+        const { _chatEnabled, _styles, _participants, _settings } = this.props;
         const { buttonStyles, buttonStylesBorderless, hangupButtonStyles, toggledButtonStyles } = _styles;
+        const participantCount = _participants.length;
 
         return (
-            <View
-                pointerEvents = 'box-none'
-                style = { styles.toolbar }>
-                {/* {
-                    _chatEnabled
-                        && <ChatButton
-                            styles = { buttonStylesBorderless }
-                            toggledStyles = {
-                                this._getChatButtonToggledStyle(toggledButtonStyles)
-                            } />
-                }
-                {
-                    !_chatEnabled
-                        && <InfoDialogButton
+            <Fragment>
+
+                { participantCount === 1 && _settings.startAudioOnly &&
+                    <View
+                        pointerEvents = 'box-none'
+                        style = { styles.toolbar }>
+                        <AudioMuteButton
                             styles = { buttonStyles }
                             toggledStyles = { toggledButtonStyles } />
-                } */}
-                <AudioRouteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-                <AudioMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-                <HangupButton
-                    styles = { hangupButtonStyles } />
-                <VideoMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-                <ToggleCameraButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-            </View>
+                        <HangupButton
+                            styles = { hangupButtonStyles } />
+                        <AudioRouteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />     
+                    </View>
+                }
+                { participantCount === 1 && !_settings.startAudioOnly &&
+                    <View
+                        pointerEvents = 'box-none'
+                        style = { styles.toolbar }>
+                        <HangupButton
+                            styles = { hangupButtonStyles } />
+                    </View>
+                }
+                { participantCount > 1 && _settings.startAudioOnly &&
+                    <Fragment>
+                        <View
+                            pointerEvents = 'box-none'
+                            style = { styles.toolbar }>
+                            <AudioMuteButton
+                                styles = { buttonStyles }
+                                toggledStyles = { toggledButtonStyles } />
+                            <AudioRouteButton
+                                styles = { buttonStyles }
+                                toggledStyles = { toggledButtonStyles } />
+                            <VideoMuteButton
+                                styles = { buttonStyles }
+                                toggledStyles = { toggledButtonStyles } />     
+                        </View>
+                        <View
+                            pointerEvents = 'box-none'
+                            style = { styles.toolbar }>
+                            <HangupButton
+                                styles = { hangupButtonStyles } />
+                        </View>
+                    </Fragment>
+                }
+                { participantCount > 1 && !_settings.startAudioOnly &&
+                    <View
+                        pointerEvents = 'box-none'
+                        style = { styles.toolbar }>
+                        <AudioMuteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <HangupButton
+                                styles = { hangupButtonStyles } />
+                        <VideoMuteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <ToggleCameraButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />    
+                    </View>
+                }
+                {/* { participantCount > 1 &&
+                    <View
+                        pointerEvents = 'box-none'
+                        style = { styles.toolbar }>          
+                        <AudioMuteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <AudioRouteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />                       
+                        <HangupButton
+                            styles = { hangupButtonStyles } />
+                        <VideoMuteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <ToggleCameraButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+
+                        <AudioRouteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <AudioMuteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <HangupButton
+                            styles = { hangupButtonStyles } />
+                        <VideoMuteButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                        <ToggleCameraButton
+                            styles = { buttonStyles }
+                            toggledStyles = { toggledButtonStyles } />
+                    </View>
+                }
+                <View
+                    pointerEvents = 'box-none'
+                    style = { styles.toolbar }>
+                    <HangupButton
+                        styles = { hangupButtonStyles } />
+                </View> */}
+                
+            </Fragment>
         );
     }
 }
@@ -206,7 +282,9 @@ function _mapStateToProps(state: Object): Object {
     return {
         _chatEnabled: getFeatureFlag(state, CHAT_ENABLED, true),
         _styles: ColorSchemeRegistry.get(state, 'Toolbox'),
-        _visible: isToolboxVisible(state)
+        _visible: isToolboxVisible(state),
+        _participants: state['features/base/participants'],
+        _settings: state['features/base/settings']
     };
 }
 

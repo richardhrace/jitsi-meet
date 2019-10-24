@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -87,10 +88,22 @@ public class MainActivity extends JitsiMeetActivity {
     @Override
     protected void initialize() {
         // Set default options
+        URL url = null;
+        try {
+            url = new URL("https://akveo.com/ngx-admin/assets/images/lee.png");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        JitsiMeetUserInfo userInfo = new JitsiMeetUserInfo();
+        userInfo.setAvatar(url);
+        userInfo.setDisplayName("Maise");
         JitsiMeetConferenceOptions defaultOptions
             = new JitsiMeetConferenceOptions.Builder()
                 .setWelcomePageEnabled(true)
+                .setFAvatarUrl("https://akveo.com/ngx-admin/assets/images/nick.png")
+//                .setHAvatarUrl("https://akveo.com/ngx-admin/assets/images/lee.png")
                 .setServerURL(buildURL("https://meet.jit.si"))
+                .setUserInfo(userInfo)
                 .build();
         JitsiMeet.setDefaultConferenceOptions(defaultOptions);
 

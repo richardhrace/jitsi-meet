@@ -40,6 +40,8 @@ type Props = {
      */
     _participantName: string,
 
+    _participants: Array<any>,
+
     /**
      * True if the video should be rendered, false otherwise.
      */
@@ -54,6 +56,8 @@ type Props = {
      * The avatar size.
      */
     avatarSize: number,
+
+    avatarUrl: String,
 
     /**
      * Whether video should be disabled for his view.
@@ -187,7 +191,9 @@ class ParticipantView extends Component<Props> {
             _renderVideo: renderVideo,
             _videoTrack: videoTrack,
             onPress,
-            tintStyle
+            tintStyle,
+            avatarUrl,
+            _participants
         } = this.props;
 
         // If the connection has problems, we will "tint" the video / avatar.
@@ -201,6 +207,8 @@ class ParticipantView extends Component<Props> {
                 ? this.props.testHintId
                 : `org.jitsi.meet.Participant#${this.props.participantId}`;
 
+        const participantsCount = _participants.length;
+    
         return (
             <Container
                 onClick = { renderVideo ? undefined : onPress }
@@ -227,6 +235,7 @@ class ParticipantView extends Component<Props> {
                     && <View style = { styles.avatarContainer }>
                         <Avatar
                             participantId = { this.props.participantId }
+                            avatarUrl = { participantsCount === 1 ? avatarUrl : undefined }
                             size = { this.props.avatarSize } />
                     </View> }
 
@@ -264,6 +273,7 @@ function _mapStateToProps(state, ownProps) {
             connectionStatus
                 || JitsiParticipantConnectionStatus.ACTIVE,
         _participantName: participantName,
+        _participants: state['features/base/participants'],
         _renderVideo: shouldRenderParticipantVideo(state, participantId) && !disableVideo,
         _videoTrack:
             getTrackByMediaTypeAndParticipant(

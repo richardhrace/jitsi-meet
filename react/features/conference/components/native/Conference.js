@@ -167,7 +167,8 @@ class Conference extends AbstractConference<Props, *> {
             _largeVideoParticipantId,
             _reducedUI,
             _shouldDisplayTileView,
-            _toolboxVisible
+            _toolboxVisible,
+            _settings
         } = this.props;
         const showGradient = _toolboxVisible;
         const applyGradientStretching = _filmstripVisible && isNarrowAspectRatio(this) && !_shouldDisplayTileView;
@@ -233,20 +234,19 @@ class Conference extends AbstractConference<Props, *> {
                     { _shouldDisplayTileView || <DisplayNameLabel participantId = { _largeVideoParticipantId } /> }
 
                     {/*
+                        * The Filmstrip is in a stacking layer above the
+                        * LargeVideo. The LargeVideo and the Filmstrip form what
+                        * the Web/React app calls "videospace". Presumably, the
+                        * name and grouping stem from the fact that these two
+                        * React Components depict the videos of the conference's
+                        * participants.
+                        */
+                        ( _settings.startAudioOnly ) ? undefined : <Filmstrip />
+                    }
+                    {/*
                       * The Toolbox is in a stacking layer below the Filmstrip.
                       */}
                     <Toolbox />
-
-                    {/*
-                      * The Filmstrip is in a stacking layer above the
-                      * LargeVideo. The LargeVideo and the Filmstrip form what
-                      * the Web/React app calls "videospace". Presumably, the
-                      * name and grouping stem from the fact that these two
-                      * React Components depict the videos of the conference's
-                      * participants.
-                      */
-                        _shouldDisplayTileView ? undefined : <Filmstrip />
-                    }
                 </View>
 
                 <SafeAreaView
@@ -449,7 +449,8 @@ function _mapStateToProps(state) {
          * @private
          * @type {boolean}
          */
-        _toolboxVisible: isToolboxVisible(state)
+        _toolboxVisible: isToolboxVisible(state),
+        _settings: state['features/base/settings']
     };
 }
 

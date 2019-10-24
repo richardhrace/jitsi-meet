@@ -43,13 +43,17 @@ type Props = {
     _visible: boolean
 };
 
+type State = {
+    isDisableLocal: boolean,
+};
+
 /**
  * Implements a React {@link Component} which represents the filmstrip on
  * mobile/React Native.
  *
  * @extends Component
  */
-class Filmstrip extends Component<Props> {
+class Filmstrip extends Component<Props, State> {
     /**
      * Whether the local participant should be rendered separately from the
      * remote participants i.e. outside of their {@link ScrollView}.
@@ -63,6 +67,12 @@ class Filmstrip extends Component<Props> {
      */
     constructor(props) {
         super(props);
+
+        this.state = {
+            isDisableLocal: false
+        };
+
+        this.setDisableLocal = this.setDisableLocal.bind(this);
 
         // XXX Our current design is to have the local participant separate from
         // the remote participants. Unfortunately, Android's Video
@@ -84,6 +94,13 @@ class Filmstrip extends Component<Props> {
         this._separateLocalThumbnail = Platform.OS !== 'android';
     }
 
+
+    setDisableLocal(isDisableLocal) {
+        this.setState({
+            isDisableLocal
+        });
+    }
+
     /**
      * Implements React's {@link Component#render()}.
      *
@@ -95,6 +112,8 @@ class Filmstrip extends Component<Props> {
             return null;
         }
 
+        const { isDisableLocal } = this.state;
+ 
         const isNarrowAspectRatio_ = isNarrowAspectRatio(this);
         const filmstripStyle
             = isNarrowAspectRatio_
@@ -107,8 +126,10 @@ class Filmstrip extends Component<Props> {
                 visible = { this.props._visible }>
                 {
                     this._separateLocalThumbnail
-                        && !isNarrowAspectRatio_
-                        && <LocalThumbnail />
+                        && !isNarrowAspectRatio
+                        && !isDisableLocal
+                        && <LocalThumbnail
+                                setDisableLocal = { this.setDisableLocal }/>
                 }
                 <ScrollView
                     horizontal = { isNarrowAspectRatio_ }
@@ -118,29 +139,36 @@ class Filmstrip extends Component<Props> {
                     {
                         !this._separateLocalThumbnail
                             && !isNarrowAspectRatio_
-                            && <LocalThumbnail />
+                            && !isDisableLocal
+                            && <LocalThumbnail
+                                    setDisableLocal = { this.setDisableLocal }/>
                     }
                     {
 
-                        this._sort(
+                        isDisableLocal && this._sort(
                                 this.props._participants,
                                 isNarrowAspectRatio_)
                             .map(p => (
                                 <Thumbnail
                                     key = { p.id }
+                                    setDisableLocal = { this.setDisableLocal }
                                     participant = { p } />))
 
                     }
                     {
                         !this._separateLocalThumbnail
                             && isNarrowAspectRatio_
-                            && <LocalThumbnail />
+                            && !isDisableLocal
+                            && <LocalThumbnail
+                                    setDisableLocal = { this.setDisableLocal } />
                     }
                 </ScrollView>
                 {
                     this._separateLocalThumbnail
                         && isNarrowAspectRatio_
-                        && <LocalThumbnail />
+                        && !isDisableLocal
+                        && <LocalThumbnail
+                                setDisableLocal = { this.setDisableLocal } />
                 }
             </Container>
         );

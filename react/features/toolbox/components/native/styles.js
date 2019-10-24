@@ -63,7 +63,7 @@ const styles = {
         flexDirection: 'row',
         flexGrow: 0,
         justifyContent: 'center',
-        marginBottom: BoxModel.margin / 2,
+        marginBottom: BoxModel.margin,
         paddingHorizontal: BoxModel.margin
     },
 

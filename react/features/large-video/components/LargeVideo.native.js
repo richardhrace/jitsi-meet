@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-
+import { NativeModules } from 'react-native';
 import { ColorSchemeRegistry } from '../../base/color-scheme';
 import { ParticipantView } from '../../base/participants';
 import { connect } from '../../base/redux';
@@ -122,14 +122,17 @@ class LargeVideo extends Component<Props, State> {
         const {
             _participantId,
             _styles,
-            onClick
+            onClick,
         } = this.props;
+
+        const url = NativeModules.AppInfo.getFAvatarUrl();
 
         return (
             <DimensionsDetector
                 onDimensionsChanged = { this._onDimensionsChanged }>
                 <ParticipantView
                     avatarSize = { avatarSize }
+                    avatarUrl = { url}
                     onPress = { onClick }
                     participantId = { _participantId }
                     style = { _styles.largeVideo }

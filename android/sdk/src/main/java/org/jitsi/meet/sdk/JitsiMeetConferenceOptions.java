@@ -184,6 +184,18 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             return this;
         }
 
+        public Builder setFAvatarUrl(String url) {
+            AppInfoModule.setFAvatarUrl(url);
+
+            return this;
+        }
+
+        public Builder setHAvatarUrl(String url) {
+            AppInfoModule.setHAvatarUrl(url);
+
+            return this;
+        }
+
         /**
          * Sets the welcome page enabled / disabled. The welcome page lists recent meetings and
          * calendar appointments and it's meant to be used by standalone applications. Defaults to

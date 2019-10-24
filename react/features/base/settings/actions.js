@@ -10,6 +10,7 @@ import { SETTINGS_UPDATED } from './actionTypes';
  *         audioOutputDeviceId: string,
  *         avatarID: string,
  *         avatarURL: string,
+ *         mainAvatarURL: string,
  *         cameraDeviceId: string,
  *         displayName: string,
  *         email: string,
