@@ -300,6 +300,7 @@ class TileView extends Component<Props, State> {
                 <Thumbnail
                     disableTint = { true }
                     key = { participant.id }
+                    isTileView = { true }
                     participant = { participant }
                     renderDisplayName = { true }
                     styleOverrides = { styleOverrides }

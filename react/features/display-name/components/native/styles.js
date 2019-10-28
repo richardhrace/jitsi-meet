@@ -5,7 +5,10 @@ import { ColorPalette } from '../../../base/styles';
 export default {
     displayNameBackdrop: {
         alignSelf: 'center',
-        backgroundColor: 'rgba(28, 32, 37, 0.6)',
+        textAlign: 'center',
+        justifyContent: "center", 
+        alignItems: "center",
+        backgroundColor: 'transparent',
         borderRadius: 4,
         margin: 16,
         paddingHorizontal: 16,
@@ -13,6 +16,10 @@ export default {
     },
 
     displayNameText: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        justifyContent: "center", 
+        alignItems: "center",
         color: ColorPalette.white,
         fontSize: 14
     }

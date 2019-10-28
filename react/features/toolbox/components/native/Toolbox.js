@@ -213,9 +213,9 @@ class Toolbox extends Component<Props, State> {
                         <VideoMuteButton
                             styles = { buttonStyles }
                             toggledStyles = { toggledButtonStyles } />
-                        <ToggleCameraButton
+                        {/* <ToggleCameraButton
                             styles = { buttonStyles }
-                            toggledStyles = { toggledButtonStyles } />    
+                            toggledStyles = { toggledButtonStyles } />     */}
                     </View>
                 }
                 {/* { participantCount > 1 &&

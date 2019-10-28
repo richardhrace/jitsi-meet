@@ -48,12 +48,14 @@ type State = {
      * Whether the connectivity indicator will be shown or not. It will be true
      * by default, but it may be turned off if there is not enough space.
      */
-    useConnectivityInfoLabel: boolean
+    useConnectivityInfoLabel: boolean,
+    avatarUrl: string
 };
 
 const DEFAULT_STATE = {
     avatarSize: AVATAR_SIZE,
-    useConnectivityInfoLabel: true
+    useConnectivityInfoLabel: true,
+    avatarUrl: NativeModules.AppInfo.getFriendAvatarUrl()
 };
 
 /**
@@ -117,7 +119,8 @@ class LargeVideo extends Component<Props, State> {
     render() {
         const {
             avatarSize,
-            useConnectivityInfoLabel
+            useConnectivityInfoLabel,
+            avatarUrl
         } = this.state;
         const {
             _participantId,
@@ -125,14 +128,13 @@ class LargeVideo extends Component<Props, State> {
             onClick,
         } = this.props;
 
-        const url = NativeModules.AppInfo.getFAvatarUrl();
 
         return (
             <DimensionsDetector
                 onDimensionsChanged = { this._onDimensionsChanged }>
                 <ParticipantView
                     avatarSize = { avatarSize }
-                    avatarUrl = { url}
+                    avatarUrl = { avatarUrl}
                     onPress = { onClick }
                     participantId = { _participantId }
                     style = { _styles.largeVideo }

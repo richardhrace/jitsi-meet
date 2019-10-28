@@ -110,13 +110,9 @@ type Props = {
     _participants: Array<any>,
     setDisableLocal: Function,
     setParticipant: Function,
-    _localParticipant: Object
+    _localParticipant: Object,
+    isTileView: Boolean
 };
-
-type State = {
-    avatarUrl: string,
-};
-
 
 /**
  * React component for video thumbnail.
@@ -124,15 +120,11 @@ type State = {
  * @param {Props} props - Properties passed to this functional component.
  * @returns {Component} - A React component.
  */
-class Thumbnail extends Component<Props, State> {
+class Thumbnail extends Component<Props> {
 
 
     constructor(props: Props) {
         super(props);
-
-        this.state = {
-            avatarUrl: NativeModules.AppInfo.getHAvatarUrl()
-        };
 
         this.onClick = this.onClick.bind(this);
         this._onSetAvatarURL = this._onSetAvatarURL.bind(this);
@@ -140,8 +132,17 @@ class Thumbnail extends Component<Props, State> {
 
 
     onClick() {
-        const { _participants, setDisableLocal, participant, _localParticipant, _onClick, setParticipant } = this.props;
+        const {
+            _participants,
+            setDisableLocal,
+            participant,
+            _localParticipant,
+            _onClick,
+            setParticipant,
+            isTileView
+        } = this.props;
         _onClick();
+        if (isTileView) return;
         // setParticipant(participant.local ? _participants[0] : _localParticipant);
         setDisableLocal(participant.local ? true : false);
          
@@ -171,8 +172,6 @@ class Thumbnail extends Component<Props, State> {
             tileView
         } = this.props;
 
-        const { avatarUrl } = this.state;
-
         const participantId = participant.id;
         const participantInLargeVideo
             = participantId === largeVideo.participantId;
@@ -193,7 +192,6 @@ class Thumbnail extends Component<Props, State> {
 
                 <ParticipantView
                     avatarSize = { AVATAR_SIZE }
-                    // avatarUrl = { avatarUrl }
                     disableVideo = { isScreenShare }
                     participantId = { participantId }
                     style = { _styles.participantViewStyle }

@@ -14,6 +14,16 @@ export default {
         justifyContent: 'center'
     },
 
+    displayRequestText: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        justifyContent: "center", 
+        alignItems: "center",
+        color: ColorPalette.white,
+        fontSize: 14,
+        marginTop: 25,
+    },
+
     /**
      * Style for the text rendered when there is a connectivity problem.
      */

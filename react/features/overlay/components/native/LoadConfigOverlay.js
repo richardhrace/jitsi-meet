@@ -51,6 +51,8 @@ class LoadConfigOverlay extends Component<Props> {
     render() {
         const { _styles } = this.props;
 
+        return null;
+
         return (
             <OverlayFrame>
                 <View

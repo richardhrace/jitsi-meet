@@ -184,14 +184,27 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             return this;
         }
 
-        public Builder setFAvatarUrl(String url) {
-            AppInfoModule.setFAvatarUrl(url);
+        public Builder setFriendAvatarUrl(String url) {
+            AppInfoModule.setFriendAvatarUrl(url);
 
             return this;
         }
 
-        public Builder setHAvatarUrl(String url) {
-            AppInfoModule.setHAvatarUrl(url);
+
+        public Builder setIsHost(boolean host) {
+            AppInfoModule.setIsHost(host);
+
+            return this;
+        }
+
+        public Builder setFriendName(String name) {
+            AppInfoModule.setFriendName(name);
+
+            return this;
+        }
+
+        public Builder setVoiceMode(boolean voiceMode) {
+            AppInfoModule.setVoiceMode(voiceMode);
 
             return this;
         }
@@ -232,6 +245,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
 
             return this;
         }
+        
 
         /**
          * Builds the immutable {@link JitsiMeetConferenceOptions} object with the configuration

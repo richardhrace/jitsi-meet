@@ -96,6 +96,12 @@ export default {
         top: 0
     },
 
+    toggleCameraButtonView: {
+        position: 'absolute',
+        right: 10,
+        top: 20
+    },
+
     navBarWrapper: {
         alignItems: 'center',
         flex: 1,

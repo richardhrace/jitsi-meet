@@ -100,8 +100,9 @@ public class MainActivity extends JitsiMeetActivity {
         JitsiMeetConferenceOptions defaultOptions
             = new JitsiMeetConferenceOptions.Builder()
                 .setWelcomePageEnabled(true)
-                .setFAvatarUrl("https://akveo.com/ngx-admin/assets/images/nick.png")
-//                .setHAvatarUrl("https://akveo.com/ngx-admin/assets/images/lee.png")
+//                .setIsHost(false)
+                .setVoiceMode(true)
+                .setFriendAvatarUrl("https://akveo.com/ngx-admin/assets/images/nick.png")
                 .setServerURL(buildURL("https://meet.jit.si"))
                 .setUserInfo(userInfo)
                 .build();

@@ -1,7 +1,7 @@
 // @flow
 
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { NativeModules, Text, View } from 'react-native';
 
 import { Avatar } from '../../avatar';
 import { translate } from '../../i18n';
@@ -11,12 +11,15 @@ import {
     VideoTrack
 } from '../../media';
 import { Container, TintedView } from '../../react';
+import { appNavigate } from '../../../app';
 import { connect } from '../../redux';
 import { StyleType } from '../../styles';
 import { TestHint } from '../../testing/components';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
 
 import { shouldRenderParticipantVideo } from '../functions';
+import { createToolbarEvent, sendAnalytics } from '../../../analytics';
+import { disconnect } from '../../../base/connection';
 import styles from './styles';
 
 /**
@@ -122,8 +125,17 @@ type Props = {
     /**
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
-    zoomEnabled: boolean
+    zoomEnabled: boolean,
+    dispatch: Function
 };
+
+type State = {
+    friendName: string,
+    timer: any,
+    counter: number,
+    isHost: boolean,
+    startCall: boolean
+}
 
 /**
  * Implements a React Component which depicts a specific participant's avatar
@@ -131,7 +143,62 @@ type Props = {
  *
  * @extends Component
  */
-class ParticipantView extends Component<Props> {
+class ParticipantView extends Component<Props, State> {
+    _hangup: Function;
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            timer: null,
+            counter: 0,
+            isHost: NativeModules.AppInfo.getIsHost(),
+            friendName: NativeModules.AppInfo.getFriendName(),
+            startCall: false
+        };
+
+        this._hangup = () => {
+            sendAnalytics(createToolbarEvent('hangup'));
+
+            // FIXME: these should be unified.
+            if (navigator.product === 'ReactNative') {
+                this.props.dispatch(appNavigate(undefined));
+            } else {
+                this.props.dispatch(disconnect(true));
+            }
+        };
+    }
+
+    componentDidMount( ) {
+        let timer = setInterval(this.tick, 1000);
+        this.setState({
+            timer,
+        });
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.timer);
+    }
+
+    tick =() => {
+        this.setState({
+            counter: this.state.counter + 1
+        });
+        if (!this.state.startCall) return;
+        this._hangup();  
+    }
+
+
+    componentWillReceiveProps(newProps) {
+        let startCall = false;
+
+        if (newProps._participants.length !== this.props._participants.length) {
+            startCall = true;
+        }
+
+        this.setState({
+            startCall,
+        });
+    }
 
     /**
      * Renders the connection status label, if appropriate.
@@ -193,7 +260,8 @@ class ParticipantView extends Component<Props> {
             onPress,
             tintStyle,
             avatarUrl,
-            _participants
+            _participants,
+            _settings
         } = this.props;
 
         // If the connection has problems, we will "tint" the video / avatar.
@@ -208,7 +276,8 @@ class ParticipantView extends Component<Props> {
                 : `org.jitsi.meet.Participant#${this.props.participantId}`;
 
         const participantsCount = _participants.length;
-    
+        const { isHost, friendName } = this.state;
+
         return (
             <Container
                 onClick = { renderVideo ? undefined : onPress }
@@ -223,7 +292,22 @@ class ParticipantView extends Component<Props> {
                     onPress = { onPress }
                     value = '' />
 
-                { renderVideo
+                { participantsCount === 1 &&
+                    // <View style = { styles.avatarContainer }>
+                    //     <Avatar
+                    //         participantId = { this.props.participantId }
+                    //         avatarUrl = { participantsCount === 1 ? avatarUrl : undefined }
+                    //         size = { this.props.avatarSize } />
+                    //     { isHost &&
+                    //         <Text style = { styles.displayRequestText }>
+                    //             {`${friendName}`}{"\n"}
+                    //             {`${(_settings.startAudioOnly ? '正在呼叫中' : '正在邀请视频聊天') + "...".substr(0, this.state.counter % 3 + 1)}`}
+                    //         </Text>
+                    //     }
+                    // </View>
+                }
+
+                { renderVideo && participantsCount > 1
                     && <VideoTrack
                         onPress = { onPress }
                         videoTrack = { videoTrack }
@@ -231,7 +315,7 @@ class ParticipantView extends Component<Props> {
                         zOrder = { this.props.zOrder }
                         zoomEnabled = { this.props.zoomEnabled } /> }
 
-                { !renderVideo
+                { !renderVideo && participantsCount > 1
                     && <View style = { styles.avatarContainer }>
                         <Avatar
                             participantId = { this.props.participantId }
@@ -273,6 +357,7 @@ function _mapStateToProps(state, ownProps) {
             connectionStatus
                 || JitsiParticipantConnectionStatus.ACTIVE,
         _participantName: participantName,
+        _settings: state['features/base/settings'],
         _participants: state['features/base/participants'],
         _renderVideo: shouldRenderParticipantVideo(state, participantId) && !disableVideo,
         _videoTrack:

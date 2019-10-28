@@ -35,7 +35,9 @@ class AppInfoModule
 
     public static final String NAME = "AppInfo";
     public static String fAvatarUrl = "";
-    public static String hAvatarUrl = "";
+    public static String friendName = "小慧助手";
+    public static boolean isHost = true;
+    public static boolean isVoiceMode = false;
 
     public AppInfoModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -88,21 +90,39 @@ class AppInfoModule
         return NAME;
     }
 
-    public static void setFAvatarUrl(String avatarUrl) {
+    public static void setFriendAvatarUrl(String avatarUrl) {
         fAvatarUrl = avatarUrl;
     }
 
-    public static void setHAvatarUrl(String avatarUrl) {
-        hAvatarUrl = avatarUrl;
+    public static void setIsHost(boolean host) {
+        isHost = host;
+    }
+
+    public static void setFriendName(String name) {
+        friendName = name;
+    }
+
+    public static void setVoiceMode(boolean voiceMode) {
+        isVoiceMode = voiceMode;
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getFAvatarUrl() {
+    public String getFriendAvatarUrl() {
         return fAvatarUrl;
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getHAvatarUrl() {
-        return hAvatarUrl;
+    public boolean getIsHost() {
+        return isHost;
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String getFriendName() {
+        return friendName;
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean getVoiceMode() {
+        return isVoiceMode;
     }
 }

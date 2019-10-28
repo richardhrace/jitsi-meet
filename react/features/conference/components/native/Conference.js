@@ -7,6 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { appNavigate } from '../../../app';
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { Container, LoadingIndicator, TintedView } from '../../../base/react';
+import { updateSettings } from '../../../base/settings';
+import { isLocalTrackMuted } from '../../../base/tracks';
 import { connect } from '../../../base/redux';
 import {
     isNarrowAspectRatio,
@@ -27,7 +29,10 @@ import { BackButtonRegistry } from '../../../mobile/back-button';
 import { AddPeopleDialog, CalleeInfoContainer } from '../../../invite';
 import { Captions } from '../../../subtitles';
 import { isToolboxVisible, setToolboxVisible, Toolbox } from '../../../toolbox';
-
+import ToggleCameraButton from '../../../toolbox/components/native/ToggleCameraButton';
+import {
+    MEDIA_TYPE,
+} from '../../../base/media';
 import {
     AbstractConference,
     abstractMapStateToProps
@@ -35,7 +40,6 @@ import {
 import Labels from './Labels';
 import NavigationBar from './NavigationBar';
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
-
 import type { AbstractProps } from '../AbstractConference';
 
 /**
@@ -111,6 +115,7 @@ type Props = AbstractProps & {
     dispatch: Function
 };
 
+
 /**
  * The conference page of the mobile (i.e. React Native) application.
  */
@@ -125,9 +130,16 @@ class Conference extends AbstractConference<Props, *> {
         super(props);
 
         // Bind event handlers so they are only bound once per instance.
+        // this.isHost = NativeModules.AppInfo.getIsHost();
+        // this.isVoiceMode = NativeModules.AppInfo.getVoiceMode();
         this._onClick = this._onClick.bind(this);
         this._onHardwareBackPress = this._onHardwareBackPress.bind(this);
         this._setToolboxVisible = this._setToolboxVisible.bind(this);
+
+        props.dispatch(updateSettings({
+            startAudioOnly: NativeModules.AppInfo.getVoiceMode()
+        }));
+
     }
 
     /**
@@ -168,11 +180,13 @@ class Conference extends AbstractConference<Props, *> {
             _reducedUI,
             _shouldDisplayTileView,
             _toolboxVisible,
-            _settings
+            _settings,
+            _participants,
+            _videoMuted
         } = this.props;
         const showGradient = _toolboxVisible;
         const applyGradientStretching = _filmstripVisible && isNarrowAspectRatio(this) && !_shouldDisplayTileView;
-
+        const participantCount = _participants.length;
         return (
             <Container style = { styles.conference }>
                 <StatusBar
@@ -201,10 +215,10 @@ class Conference extends AbstractConference<Props, *> {
                   * The activity/loading indicator goes above everything, except
                   * the toolbox/toolbars and the dialogs.
                   */
-                    _connecting
-                        && <TintedView>
-                            <LoadingIndicator />
-                        </TintedView>
+                    // _connecting
+                    //     && <TintedView>
+                    //         <LoadingIndicator />
+                    //     </TintedView>
                 }
 
                 <View
@@ -255,6 +269,14 @@ class Conference extends AbstractConference<Props, *> {
                     <NavigationBar />
                     { this.renderNotificationsContainer() }
                 </SafeAreaView>
+
+                { participantCount > 1 && !_settings.startAudioOnly && !_videoMuted &&
+                    <View
+                        pointerEvents = 'box-none'
+                        style = { styles.toggleCameraButtonView }>
+                        <ToggleCameraButton />                          
+                    </View>
+                }
 
                 <TestConnectionInfo />
 
@@ -394,6 +416,8 @@ function _mapStateToProps(state) {
     const connecting_
         = connecting || (connection && (joining || (!conference && !leaving)));
 
+    const tracks = state['features/base/tracks'];
+
     return {
         ...abstractMapStateToProps(state),
 
@@ -450,7 +474,9 @@ function _mapStateToProps(state) {
          * @type {boolean}
          */
         _toolboxVisible: isToolboxVisible(state),
-        _settings: state['features/base/settings']
+        _settings: state['features/base/settings'],
+        _participants: state['features/base/participants'],
+        _videoMuted: isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO)
     };
 }
 
