@@ -11,9 +11,15 @@ export default {
      */
     avatarContainer: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingBottom: 155,
     },
 
+    normalAvatarContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    
     displayRequestText: {
         alignSelf: 'center',
         textAlign: 'center',

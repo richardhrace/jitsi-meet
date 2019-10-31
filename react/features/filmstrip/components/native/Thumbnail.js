@@ -181,12 +181,12 @@ class Thumbnail extends Component<Props> {
         return (
             <Container
                 onClick = { this.onClick }
-                onLongPress = { participant.local ? undefined : _onShowRemoteVideoMenu }
+                // onLongPress = { participant.local ? undefined : _onShowRemoteVideoMenu }
                 style = { [
                     styles.thumbnail,
-                    participant.pinned && !tileView
-                        ? _styles.thumbnailPinned : null,
-                    this.props.styleOverrides || null
+                    // participant.pinned && !tileView
+                    //     ? _styles.thumbnailPinned : null,
+                    // this.props.styleOverrides || null
                 ] }
                 touchFeedback = { false }>
 

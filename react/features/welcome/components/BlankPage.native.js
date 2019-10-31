@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import type { Dispatch } from 'redux';
+import { Text } from 'react-native';
 
 import { connect } from '../../base/redux';
 import { destroyLocalTracks } from '../../base/tracks';

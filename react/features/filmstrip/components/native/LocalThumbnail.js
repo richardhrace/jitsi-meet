@@ -51,7 +51,7 @@ class LocalThumbnail extends Component<Props, State> {
         const { participant } = this.state;
 
         return (
-            <View style = { styles.localThumbnail }>
+            <View style = { null }>
                 <Thumbnail
                     setDisableLocal = { setDisableLocal }
                     setParticipant = { this.setParticipant }

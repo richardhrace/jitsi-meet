@@ -19,6 +19,12 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTLog.h>
 
+
+static NSString *friendAvatarUrl  = @"";
+static NSString *friendName   = @"";
+static BOOL *isHost    = true;
+static BOOL *isVoiceMode    = false;
+
 @interface AppInfo : NSObject<RCTBridgeModule>
 @end
 
@@ -29,6 +35,31 @@ RCT_EXPORT_MODULE();
 + (BOOL)requiresMainQueueSetup {
     return NO;
 }
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
+  getFriendAvatarUrl:
+) {
+  return friendAvatarUrl;
+}
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
+  getFriendName:
+) {
+  return friendName;
+}
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
+  getIsHost:
+) {
+  return isHost;
+}
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
+  getVoiceMode:
+) {
+  return isVoiceMode;
+}
+
 
 - (NSDictionary *)constantsToExport {
     NSDictionary<NSString *, id> *infoDictionary

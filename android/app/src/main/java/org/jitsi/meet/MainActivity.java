@@ -105,6 +105,7 @@ public class MainActivity extends JitsiMeetActivity {
                 .setFriendAvatarUrl("https://akveo.com/ngx-admin/assets/images/nick.png")
                 .setServerURL(buildURL("https://meet.jit.si"))
                 .setUserInfo(userInfo)
+//                .setRoom("2222")
                 .build();
         JitsiMeet.setDefaultConferenceOptions(defaultOptions);
 

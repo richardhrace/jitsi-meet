@@ -21,7 +21,7 @@ const toolbarButton = {
 
     // XXX We probably tested BoxModel.margin and discovered it to be too small
     // for our taste.
-    marginHorizontal: 7,
+    marginHorizontal: 20,
     width: BUTTON_SIZE
 };
 

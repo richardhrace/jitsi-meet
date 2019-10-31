@@ -30,7 +30,7 @@ type Props = {
     /**
      * Callback to invoke when the {@code LargeVideo} is clicked/pressed.
      */
-    onClick: Function,
+    onClick: Function
 };
 
 /**
@@ -125,7 +125,7 @@ class LargeVideo extends Component<Props, State> {
         const {
             _participantId,
             _styles,
-            onClick,
+            onClick
         } = this.props;
 
 
@@ -133,6 +133,7 @@ class LargeVideo extends Component<Props, State> {
             <DimensionsDetector
                 onDimensionsChanged = { this._onDimensionsChanged }>
                 <ParticipantView
+                    isLarge = { true }
                     avatarSize = { avatarSize }
                     avatarUrl = { avatarUrl}
                     onPress = { onClick }

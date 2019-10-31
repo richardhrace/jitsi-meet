@@ -2,6 +2,7 @@
 
 import { generateRoomWithoutSeparator } from 'js-utils/random';
 import type { Component } from 'react';
+// import { Text } from 'react-native';
 
 import { isRoomValid } from '../base/conference';
 import { toState } from '../base/redux';

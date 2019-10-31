@@ -30,8 +30,8 @@ export default {
         background: 'rgb(42, 58, 75)'
     },
     'LoadConfigOverlay': {
-        background: 'rgb(249, 249, 249)',
-        text: 'rgb(28, 32, 37)'
+        background: 'rgb(42, 58, 75)',
+        text: 'rgba(255, 255, 255, 0.8)'
     },
     'Thumbnail': {
         activeParticipantHighlight: 'rgb(81, 214, 170)',
@@ -39,9 +39,9 @@ export default {
         background: 'rgb(94, 109, 122)'
     },
     'Toolbox': {
-        button: 'rgb(255, 255, 255)',
+        button: 'rgba(255, 255, 255, 0.8)',
         buttonToggled: 'rgb(38, 58, 76)',
         buttonToggledBorder: getRGBAFormat('#a4b8d1', 0.6),
-        hangup: 'rgb(225, 45, 45)'
+        hangup: 'rgba(225, 45, 45, 0.8)'
     }
 };

@@ -126,13 +126,16 @@ type Props = {
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
     zoomEnabled: boolean,
-    dispatch: Function
+    dispatch: Function,
+    isLarge: boolean,
 };
 
 type State = {
     friendName: string,
     timer: any,
     counter: number,
+    meetingTime: number,
+    meetingTimeStr: string,
     isHost: boolean,
     startCall: boolean
 }
@@ -151,6 +154,7 @@ class ParticipantView extends Component<Props, State> {
         this.state = {
             timer: null,
             counter: 0,
+            meetingTime: 0,
             isHost: NativeModules.AppInfo.getIsHost(),
             friendName: NativeModules.AppInfo.getFriendName(),
             startCall: false
@@ -179,10 +183,22 @@ class ParticipantView extends Component<Props, State> {
         clearInterval(this.state.timer);
     }
 
-    tick =() => {
+    tick = () => {
+        const count = this.props._participants.length;
+
         this.setState({
-            counter: this.state.counter + 1
+            counter: this.state.counter + 1,
+            meetingTime: count >= 2 ? this.state.meetingTime + 1 : 0
+        }, () => {
+            const hours = Math.floor(this.state.meetingTime / 3600);
+            const mins = Math.floor((this.state.meetingTime % 3600) / 60);
+            const seconds = this.state.meetingTime - (hours * 3600 + mins * 60);
+
+            this.setState({
+                meetingTimeStr: `${hours ? hours > 9 ? hours : '0' + hours + ':' : ''}${mins > 9 ? mins : '0' + mins}:${seconds > 9 ? seconds : '0' + seconds}`
+            });
         });
+
         if (!this.state.startCall) return;
         this._hangup();  
     }
@@ -197,6 +213,7 @@ class ParticipantView extends Component<Props, State> {
 
         this.setState({
             startCall,
+            // meetingTime: !startCall ? 0 : this.state.meetingTime
         });
     }
 
@@ -261,7 +278,8 @@ class ParticipantView extends Component<Props, State> {
             tintStyle,
             avatarUrl,
             _participants,
-            _settings
+            _settings,
+            isLarge
         } = this.props;
 
         // If the connection has problems, we will "tint" the video / avatar.
@@ -276,7 +294,7 @@ class ParticipantView extends Component<Props, State> {
                 : `org.jitsi.meet.Participant#${this.props.participantId}`;
 
         const participantsCount = _participants.length;
-        const { isHost, friendName } = this.state;
+        const { isHost, friendName, meetingTimeStr } = this.state;
 
         return (
             <Container
@@ -293,18 +311,18 @@ class ParticipantView extends Component<Props, State> {
                     value = '' />
 
                 { participantsCount === 1 &&
-                    // <View style = { styles.avatarContainer }>
-                    //     <Avatar
-                    //         participantId = { this.props.participantId }
-                    //         avatarUrl = { participantsCount === 1 ? avatarUrl : undefined }
-                    //         size = { this.props.avatarSize } />
-                    //     { isHost &&
-                    //         <Text style = { styles.displayRequestText }>
-                    //             {`${friendName}`}{"\n"}
-                    //             {`${(_settings.startAudioOnly ? '正在呼叫中' : '正在邀请视频聊天') + "...".substr(0, this.state.counter % 3 + 1)}`}
-                    //         </Text>
-                    //     }
-                    // </View>
+                    <View style = { isLarge ? styles.avatarContainer : styles.normalAvatarContainer }>
+                        <Avatar
+                            participantId = { this.props.participantId }
+                            avatarUrl = { participantsCount === 1 ? avatarUrl : undefined }
+                            size = { this.props.avatarSize } />
+                        { isHost && isLarge &&
+                            <Text style = { styles.displayRequestText }>
+                                {`${friendName}`}{"\n"}
+                                {`${(_settings.startAudioOnly ? '正在呼叫中' : '正在邀请视频聊天') + "...".substr(0, this.state.counter % 3 + 1)}`}
+                            </Text>
+                        }
+                    </View>
                 }
 
                 { renderVideo && participantsCount > 1
@@ -316,12 +334,20 @@ class ParticipantView extends Component<Props, State> {
                         zoomEnabled = { this.props.zoomEnabled } /> }
 
                 { !renderVideo && participantsCount > 1
-                    && <View style = { styles.avatarContainer }>
+                    &&
+                    <View style = { isLarge ? styles.avatarContainer : styles.normalAvatarContainer }>
                         <Avatar
                             participantId = { this.props.participantId }
                             avatarUrl = { participantsCount === 1 ? avatarUrl : undefined }
                             size = { this.props.avatarSize } />
-                    </View> }
+                        { isLarge &&
+                            <Text style = { styles.displayRequestText }>
+                                {`${friendName}`}{"\n"}
+                                {`${meetingTimeStr}`}
+                            </Text>
+                        }
+                    </View>
+                }
 
                 { useTint
 

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Text, View } from 'react-native';
 
 import {
@@ -27,13 +27,12 @@ type Props = {
     /**
      * The ID of the participant to render the label for.
      */
-    participantId: string
+    participantId: string,
+    isNetworkFailure: boolean
 }
 
 type State = {
-    timer: any,
-    counter: number,
-    timeStr: string
+    name: string,
 }
 
 /**
@@ -43,35 +42,9 @@ class DisplayNameLabel extends Component<Props, State> {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            timer: null,
-            counter: 0,
-            timeStr: ''
-        };
-
     }
 
-    componentDidMount() {
-        let timer = setInterval(this.tick, 1000);
-        this.setState({timer});
-    }
 
-    componentWillUnmount() {
-        clearInterval(this.state.timer);
-    }
-
-    tick = () => {
-        const participantsCount = this.props._participants.length;
-        if (participantsCount < 2 ) return;
-        const hours = Math.floor(this.state.counter / 3600);
-        const mins = Math.floor((this.state.counter % 3600) / 60);
-        const seconds = this.state.counter - (hours * 3600 + mins * 60);
-        this.setState({
-            counter: this.state.counter + 1,
-            timeStr: `${hours ? hours > 9 ? hours : '0' + hours + ':' : ''}${mins > 9 ? mins : '0' + mins}:${seconds > 9 ? seconds : '0' + seconds}`
-        });
-    }
     /**
      * Implements {@code Component#render}.
      *
@@ -83,14 +56,15 @@ class DisplayNameLabel extends Component<Props, State> {
         }
 
         return (
-            <View style = { styles.displayNameBackdrop }>
-                <Text style = { styles.displayNameText }>
-                    { this.props._participantName }
-                </Text>
-                <Text style = { styles.displayNameText }>
-                    { `${this.state.timeStr}` }
-                </Text>
-            </View>
+            <Fragment>
+                { this.props.isNetworkFailure && 
+                    <View style = { styles.displayNameBackdrop }>
+                        <Text style = { styles.displayNameText }>
+                            服务器出现问题，请稍后重试 。
+                        </Text>
+                    </View>
+                }
+            </Fragment>
         );
     }
 }
@@ -106,6 +80,9 @@ class DisplayNameLabel extends Component<Props, State> {
 function _mapStateToProps(state: Object, ownProps: Props) {
     const { participantId } = ownProps;
     const localParticipant = getLocalParticipant(state);
+    const { error: configError } = state['features/base/config'];
+    const { error: connectionError } = state['features/base/connection'];
+    const { fatalError } = state['features/overlay'];
 
     // Currently we only render the display name if it's not the local
     // participant and there is no video rendered for
@@ -115,7 +92,11 @@ function _mapStateToProps(state: Object, ownProps: Props) {
         && !shouldRenderParticipantVideo(state, participantId);
 
     return {
+        // isNetworkFailure:
+        //     fatalError === configError || fatalError === connectionError,
+        isNetworkFailure: false,
         _participants: state['features/base/participants'],
+        _settings: state['features/base/settings'],
         _participantName:
             getParticipantDisplayName(state, participantId),
         _render

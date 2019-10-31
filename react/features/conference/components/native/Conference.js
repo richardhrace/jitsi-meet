@@ -182,7 +182,8 @@ class Conference extends AbstractConference<Props, *> {
             _toolboxVisible,
             _settings,
             _participants,
-            _videoMuted
+            _videoMuted,
+            _pictureInPictureEnabled
         } = this.props;
         const showGradient = _toolboxVisible;
         const applyGradientStretching = _filmstripVisible && isNarrowAspectRatio(this) && !_shouldDisplayTileView;
@@ -202,7 +203,8 @@ class Conference extends AbstractConference<Props, *> {
                   */
                     _shouldDisplayTileView
                         ? <TileView onClick = { this._onClick } />
-                        : <LargeVideo onClick = { this._onClick } />
+                        : <LargeVideo
+                            onClick = { this._onClick } />
                 }
 
                 {/*
@@ -216,9 +218,7 @@ class Conference extends AbstractConference<Props, *> {
                   * the toolbox/toolbars and the dialogs.
                   */
                     // _connecting
-                    //     && <TintedView>
-                    //         <LoadingIndicator />
-                    //     </TintedView>
+                    //     && <LoadingIndicator />
                 }
 
                 <View
@@ -245,7 +245,7 @@ class Conference extends AbstractConference<Props, *> {
 
                     <Captions onPress = { this._onClick } />
 
-                    { _shouldDisplayTileView || <DisplayNameLabel participantId = { _largeVideoParticipantId } /> }
+                    <DisplayNameLabel participantId = { _largeVideoParticipantId } />
 
                     {/*
                         * The Filmstrip is in a stacking layer above the
