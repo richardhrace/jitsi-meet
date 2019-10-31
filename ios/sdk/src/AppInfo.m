@@ -22,8 +22,8 @@
 
 static NSString *friendAvatarUrl  = @"";
 static NSString *friendName   = @"";
-static BOOL *isHost    = true;
-static BOOL *isVoiceMode    = false;
+static NSNumber *isHost;
+static NSNumber *isVoiceMode;
 
 @interface AppInfo : NSObject<RCTBridgeModule>
 @end
@@ -37,32 +37,32 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
-  getFriendAvatarUrl:
+  getFriendAvatarUrl
 ) {
   return friendAvatarUrl;
 }
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
-  getFriendName:
+  getFriendName
 ) {
   return friendName;
 }
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
-  getIsHost:
+  getIsHost
 ) {
   return isHost;
 }
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
-  getVoiceMode:
+  getVoiceMode
 ) {
   return isVoiceMode;
 }
 
 
 - (NSDictionary *)constantsToExport {
-    NSDictionary<NSString *, id> *infoDictionary
+    NSDictionary<NSString , id> infoDictionary
         = [[NSBundle mainBundle] infoDictionary];
 
     // calendarEnabled
