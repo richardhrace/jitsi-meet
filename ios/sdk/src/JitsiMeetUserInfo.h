@@ -31,8 +31,17 @@
  */
 @property (nonatomic, copy, nullable) NSURL *avatar;
 
+@property (nonatomic, copy, nullable) NSString *friendAvatarURL;
+@property (nonatomic, copy, nullable) NSString *friendName;
+@property (nonatomic, copy, nullable) BOOL *isHost;
+@property (nonatomic, copy, nullable) BOOL *isVoiceMode;
+
 - (instancetype _Nullable)initWithDisplayName:(NSString *_Nullable)displayName
                                      andEmail:(NSString *_Nullable)email
+                                     andFriendAvatarURL:(NSString *_Nullable)friendAvatarURL
+                                     andFriendName:(NSString *_Nullable)friendName
+                                     andIsHost:(BOOL)isHost
+                                     andIsVoiceMode:(BOOL)isVoiceMode
                                     andAvatar:(NSURL *_Nullable) avatar;
 
 @end

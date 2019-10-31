@@ -40,6 +40,10 @@ public class JitsiMeetUserInfo {
      * User's avatar URL.
      */
     private URL avatar;
+    private String friendAvatarURL;
+    private boolean isVoiceMode;
+    private boolean isHost;
+    private String friendName;
 
     public JitsiMeetUserInfo() {}
 
@@ -50,8 +54,24 @@ public class JitsiMeetUserInfo {
             displayName = b.getString("displayName");
         }
 
+        if (b.containsKey("friendName")) {
+            friendName = b.getString("friendName");
+        }
+
+        if (b.containsKey("friendAvatarURL")) {
+            friendAvatarURL = b.getString("friendAvatarURL");
+        }
+
         if (b.containsKey("email")) {
             email = b.getString("email");
+        }
+
+        if (b.containsKey("isHost")) {
+            isHost = b.getBoolean("isHost");
+        }
+
+        if (b.containsKey("isVoiceMode")) {
+            isVoiceMode = b.getBoolean("isVoiceMode");
         }
 
         if (b.containsKey("avatarURL")) {
@@ -66,6 +86,23 @@ public class JitsiMeetUserInfo {
     public String getDisplayName() {
         return displayName;
     }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public String getFriendAvatarURL() {
+        return friendAvatarURL;
+    }
+
+    public boolean getIsHost() {
+        return isHost;
+    }
+
+    public boolean getIsVoiceMode() {
+        return isVoiceMode;
+    }
+
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -87,6 +124,22 @@ public class JitsiMeetUserInfo {
         this.avatar = avatar;
     }
 
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
+    }
+
+    public void setFriendAvatarURL(String friendAvatarURL) {
+        this.friendAvatarURL = friendAvatarURL;
+    }
+
+    public void setIsHost(boolean isHost) {
+        this.isHost = isHost;
+    }
+
+    public void setIsVoiceMode(boolean isVoiceMode) {
+        this.isVoiceMode = isVoiceMode;
+    }
+
     Bundle asBundle() {
         Bundle b = new Bundle();
 
@@ -101,6 +154,17 @@ public class JitsiMeetUserInfo {
         if (avatar != null) {
             b.putString("avatarURL", avatar.toString());
         }
+
+        if (friendAvatarURL != null) {
+            b.putString("friendAvatarURL", friendAvatarURL);
+        }
+
+        if (friendName != null) {
+            b.putString("friendName", friendName);
+        }
+
+        b.putBoolean("isHost", isHost);
+        b.putBoolean("isVoiceMode", isVoiceMode);
 
         return b;
     }

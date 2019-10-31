@@ -97,12 +97,15 @@ public class MainActivity extends JitsiMeetActivity {
         JitsiMeetUserInfo userInfo = new JitsiMeetUserInfo();
         userInfo.setAvatar(url);
         userInfo.setDisplayName("Maise");
+        userInfo.setIsVoiceMode(false);
+        userInfo.setIsHost(false);
+        userInfo.setFriendAvatarURL("https://akveo.com/ngx-admin/assets/images/nick.png");
         JitsiMeetConferenceOptions defaultOptions
             = new JitsiMeetConferenceOptions.Builder()
                 .setWelcomePageEnabled(true)
 //                .setIsHost(false)
                 .setVoiceMode(true)
-                .setFriendAvatarUrl("https://akveo.com/ngx-admin/assets/images/nick.png")
+//                .setFriendAvatarUrl("https://akveo.com/ngx-admin/assets/images/nick.png")
                 .setServerURL(buildURL("https://meet.jit.si"))
                 .setUserInfo(userInfo)
 //                .setRoom("2222")

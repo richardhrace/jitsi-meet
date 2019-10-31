@@ -130,14 +130,12 @@ class Conference extends AbstractConference<Props, *> {
         super(props);
 
         // Bind event handlers so they are only bound once per instance.
-        // this.isHost = NativeModules.AppInfo.getIsHost();
-        // this.isVoiceMode = NativeModules.AppInfo.getVoiceMode();
         this._onClick = this._onClick.bind(this);
         this._onHardwareBackPress = this._onHardwareBackPress.bind(this);
         this._setToolboxVisible = this._setToolboxVisible.bind(this);
 
         props.dispatch(updateSettings({
-            startAudioOnly: NativeModules.AppInfo.getVoiceMode()
+            startAudioOnly: props._settings.isVoiceMode
         }));
 
     }

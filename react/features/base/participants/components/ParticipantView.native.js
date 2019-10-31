@@ -131,12 +131,10 @@ type Props = {
 };
 
 type State = {
-    friendName: string,
     timer: any,
     counter: number,
     meetingTime: number,
     meetingTimeStr: string,
-    isHost: boolean,
     startCall: boolean
 }
 
@@ -155,8 +153,6 @@ class ParticipantView extends Component<Props, State> {
             timer: null,
             counter: 0,
             meetingTime: 0,
-            isHost: NativeModules.AppInfo.getIsHost(),
-            friendName: NativeModules.AppInfo.getFriendName(),
             startCall: false
         };
 
@@ -294,7 +290,8 @@ class ParticipantView extends Component<Props, State> {
                 : `org.jitsi.meet.Participant#${this.props.participantId}`;
 
         const participantsCount = _participants.length;
-        const { isHost, friendName, meetingTimeStr } = this.state;
+        const { meetingTimeStr } = this.state;
+        const { isHost, friendName } = this.props._settings;
 
         return (
             <Container

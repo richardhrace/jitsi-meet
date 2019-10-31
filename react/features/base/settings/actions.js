@@ -19,7 +19,11 @@ import { SETTINGS_UPDATED } from './actionTypes';
  *         serverURL: string,
  *         startAudioOnly: boolean,
  *         startWithAudioMuted: boolean,
- *         startWithVideoMuted: boolean
+ *         startWithVideoMuted: boolean,
+ *         friendAvatarURL: string,
+ *         isVoiceMode: boolean,
+ *         isHost: boolean,
+ *         friendName: string,
  *     }
  * }}
  */

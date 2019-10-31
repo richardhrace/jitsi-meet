@@ -20,10 +20,18 @@
 
 - (instancetype)initWithDisplayName:(NSString *)displayName
                            andEmail:(NSString *)email
+                           andFriendAvatarURL:(NSString *)friendAvatarURL
+                            andFriendName:(NSString *)friendName
+                            andIsHost:(BOOL)isHost
+                            andIsVoiceMode:(BOOL)isVoiceMode
                           andAvatar:(NSURL *_Nullable) avatar {
     self = [super init];
     if (self) {
         self.displayName = displayName;
+        self.friendAvatarURL = friendAvatarURL;
+        self.friendName = friendName;
+        self.isHost = isHost;
+        self.isVoiceMode = isVoiceMode;
         self.email = email;
         self.avatar = avatar;
     }
@@ -38,9 +46,20 @@
         dict[@"displayName"] = self.displayName;
     }
 
+    if (self.friendAvatarURL != nil) {
+        dict[@"friendAvatarURL"] = self.friendAvatarURL;
+    }
+
+    if (self.friendName != nil) {
+        dict[@"friendName"] = self.friendName;
+    }
+
     if (self.email != nil) {
         dict[@"email"] = self.email;
     }
+
+    dict[@"isHost"] = self.isHost;
+    dict[@"isVoiceMode"] = self.isVoiceMode;
 
     if (self.avatar != nil) {
         NSString *avatarURL = [self.avatar absoluteString];

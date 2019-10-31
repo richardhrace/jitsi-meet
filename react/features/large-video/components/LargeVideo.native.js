@@ -55,7 +55,6 @@ type State = {
 const DEFAULT_STATE = {
     avatarSize: AVATAR_SIZE,
     useConnectivityInfoLabel: true,
-    avatarUrl: NativeModules.AppInfo.getFriendAvatarUrl()
 };
 
 /**
@@ -119,14 +118,15 @@ class LargeVideo extends Component<Props, State> {
     render() {
         const {
             avatarSize,
-            useConnectivityInfoLabel,
-            avatarUrl
+            useConnectivityInfoLabel
         } = this.state;
         const {
             _participantId,
             _styles,
             onClick
         } = this.props;
+
+        const { friendAvatarURL } = this.props._settings;
 
 
         return (
@@ -135,7 +135,7 @@ class LargeVideo extends Component<Props, State> {
                 <ParticipantView
                     isLarge = { true }
                     avatarSize = { avatarSize }
-                    avatarUrl = { avatarUrl}
+                    avatarUrl = { friendAvatarURL}
                     onPress = { onClick }
                     participantId = { _participantId }
                     style = { _styles.largeVideo }
@@ -161,7 +161,8 @@ class LargeVideo extends Component<Props, State> {
 function _mapStateToProps(state) {
     return {
         _participantId: state['features/large-video'].participantId,
-        _styles: ColorSchemeRegistry.get(state, 'LargeVideo')
+        _styles: ColorSchemeRegistry.get(state, 'LargeVideo'),
+        _settings: state['features/base/settings'],
     };
 }
 

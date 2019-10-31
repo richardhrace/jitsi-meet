@@ -66,6 +66,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
     private Boolean audioMuted;
     private Boolean audioOnly;
     private Boolean videoMuted;
+    private String friendAvatarUrl;
 
     /**
      * USer information, to be used when no token is specified.
@@ -87,6 +88,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         private Boolean audioMuted;
         private Boolean audioOnly;
         private Boolean videoMuted;
+        private String friendAvatarUrl;
 
         private JitsiMeetUserInfo userInfo;
 
@@ -186,6 +188,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
 
         public Builder setFriendAvatarUrl(String url) {
             AppInfoModule.setFriendAvatarUrl(url);
+            this.friendAvatarUrl = url;
 
             return this;
         }
@@ -264,6 +267,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             options.audioMuted = this.audioMuted;
             options.audioOnly = this.audioOnly;
             options.videoMuted = this.videoMuted;
+            options.friendAvatarUrl = this.friendAvatarUrl;
             options.userInfo = this.userInfo;
 
             return options;
@@ -276,6 +280,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
     private JitsiMeetConferenceOptions(Parcel in) {
         room = in.readString();
         subject = in.readString();
+        friendAvatarUrl = in.readString();
         token = in.readString();
         colorScheme = in.readBundle();
         featureFlags = in.readBundle();
@@ -315,6 +320,9 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         }
         if (subject != null) {
             config.putString("subject", subject);
+        }
+        if (friendAvatarUrl != null) {
+            config.putString("friendAvatarUrl", friendAvatarUrl);
         }
 
         Bundle urlProps = new Bundle();
@@ -363,6 +371,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(room);
+        dest.writeString(friendAvatarUrl);
         dest.writeString(subject);
         dest.writeString(token);
         dest.writeBundle(colorScheme);

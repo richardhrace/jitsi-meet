@@ -17,6 +17,7 @@ import logger from './logger';
  *
  * @type Object
  */
+
 const DEFAULT_STATE = {
     audioOutputDeviceId: undefined,
     avatarID: undefined,
@@ -36,7 +37,11 @@ const DEFAULT_STATE = {
     userSelectedMicDeviceId: undefined,
     userSelectedAudioOutputDeviceLabel: undefined,
     userSelectedCameraDeviceLabel: undefined,
-    userSelectedMicDeviceLabel: undefined
+    userSelectedMicDeviceLabel: undefined,
+    friendAvatarURL: undefined,
+    isVoiceMode: true,
+    isHost: true,
+    friendName: '小慧助手',
 };
 
 const STORE_NAME = 'features/base/settings';
