@@ -234,6 +234,12 @@ RCT_EXPORT_METHOD(updateDeviceList) {
     [self notifyDevicesChanged];
 }
 
+
+RCT_EXPORT_METHOD(sendInvitation) {
+    BOOL isFriendAccepted = false;
+    return isFriendAccepted;
+}
+
 #pragma mark - RTCAudioSessionDelegate
 
 - (void)audioSessionDidChangeRoute:(RTCAudioSession *)session

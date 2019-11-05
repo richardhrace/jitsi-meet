@@ -595,6 +595,12 @@ class AudioModeModule extends ReactContextBaseJavaModule
         });
     }
 
+    @ReactMethod
+    public boolean sendInvitation() {
+        boolean isFriendAccepted = false;
+        return isFriendAccepted;
+    }
+
     /**
      * Setup the audio route change detection mechanism. We use the
      * {@link android.media.AudioDeviceCallback} on 23 >= Android API < 26.

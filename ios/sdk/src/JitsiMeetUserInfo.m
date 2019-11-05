@@ -30,8 +30,8 @@
         self.displayName = displayName;
         self.friendAvatarURL = friendAvatarURL;
         self.friendName = friendName;
-        self.isHost = isHost;
-        self.isVoiceMode = isVoiceMode;
+        self.isHost = [NSNumber numberWithBool:isHost];
+        self.isVoiceMode = [NSNumber numberWithBool:isVoiceMode];
         self.email = email;
         self.avatar = avatar;
     }

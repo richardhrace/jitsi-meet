@@ -1,5 +1,5 @@
 // @flow
-
+import { NativeModules } from 'react-native';
 import {
     ACTION_SHORTCUT_TRIGGERED,
     VIDEO_MUTE,
@@ -140,7 +140,15 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
      * @protected
      * @returns {void}
      */
-    _setVideoMuted(videoMuted: boolean) {
+    async _setVideoMuted(videoMuted: boolean) {
+        const { AudioMode } = NativeModules;
+        const { sendInvitation } = AudioMode; 
+
+ 
+        const isFriendAccepted = await sendInvitation();
+
+        if (!isFriendAccepted) return;
+
         sendAnalytics(createToolbarEvent(VIDEO_MUTE, { enable: videoMuted }));
         if (this.props._audioOnly) {
             this.props.dispatch(

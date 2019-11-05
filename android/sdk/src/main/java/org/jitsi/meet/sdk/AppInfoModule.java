@@ -34,10 +34,6 @@ class AppInfoModule
     extends ReactContextBaseJavaModule {
 
     public static final String NAME = "AppInfo";
-    public static String fAvatarUrl = "";
-    public static String friendName = "小慧助手";
-    public static boolean isHost = true;
-    public static boolean isVoiceMode = false;
 
     public AppInfoModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -88,41 +84,5 @@ class AppInfoModule
     @Override
     public String getName() {
         return NAME;
-    }
-
-    public static void setFriendAvatarUrl(String avatarUrl) {
-        fAvatarUrl = avatarUrl;
-    }
-
-    public static void setIsHost(boolean host) {
-        isHost = host;
-    }
-
-    public static void setFriendName(String name) {
-        friendName = name;
-    }
-
-    public static void setVoiceMode(boolean voiceMode) {
-        isVoiceMode = voiceMode;
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getFriendAvatarUrl() {
-        return fAvatarUrl;
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public boolean getIsHost() {
-        return isHost;
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getFriendName() {
-        return friendName;
-    }
-
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public boolean getVoiceMode() {
-        return isVoiceMode;
     }
 }
