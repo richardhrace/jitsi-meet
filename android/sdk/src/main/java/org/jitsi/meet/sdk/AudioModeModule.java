@@ -99,6 +99,12 @@ class AudioModeModule extends ReactContextBaseJavaModule
      */
     static final String TAG = NAME;
 
+    static final String PUSH_STATUS_WAITING = "waiting";
+    static final String PUSH_STATUS_ACCEPTED = "accepted";
+    static final String PUSH_STATUS_REJECTED = "rejected";
+    static String AudioToVideoCallRequestStatus = PUSH_STATUS_WAITING;
+    static boolean needSendAudioToVideoRequest = false;
+
     /**
      * Converts any of the "DEVICE_" constants into the corresponding
      * {@link android.telecom.CallAudioState} "ROUTE_" number.
@@ -596,11 +602,15 @@ class AudioModeModule extends ReactContextBaseJavaModule
     }
 
     @ReactMethod
-    public boolean sendInvitation() {
-        boolean isFriendAccepted = false;
-        return isFriendAccepted;
+    public void sendAudioToVideoRequest() {
+        AudioToVideoCallRequestStatus = PUSH_STATUS_WAITING;
+        needSendAudioToVideoRequest = true;
     }
 
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String getAudioToVideoResponse() {
+        return AudioToVideoCallRequestStatus;
+    }
     /**
      * Setup the audio route change detection mechanism. We use the
      * {@link android.media.AudioDeviceCallback} on 23 >= Android API < 26.

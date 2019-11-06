@@ -40,6 +40,12 @@ static NSString * const kDeviceTypeEarpiece   = @"EARPIECE";
 static NSString * const kDeviceTypeSpeaker    = @"SPEAKER";
 static NSString * const kDeviceTypeUnknown    = @"UNKNOWN";
 
+static NSString * const PUSH_STATUS_WAITING = @"waiting";
+static NSString * const PUSH_STATUS_ACCEPTED = @"accepted";
+static NSString * const PUSH_STATUS_REJECTED = @"rejected";
+
+static NSString *AudioToVideoCallRequestStatus = PUSH_STATUS_WAITING;
+static BOOL needSendAudioToVideoRequest = false;
 
 @interface AudioMode : RCTEventEmitter<RTCAudioSessionDelegate>
 
@@ -235,9 +241,15 @@ RCT_EXPORT_METHOD(updateDeviceList) {
 }
 
 
-RCT_EXPORT_METHOD(sendInvitation) {
-    BOOL isFriendAccepted = false;
-    return isFriendAccepted;
+RCT_EXPORT_METHOD(sendAudioToVideoRequest) {
+    AudioToVideoCallRequestStatus = PUSH_STATUS_WAITING;
+    needSendAudioToVideoRequest = true;
+}
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(
+                                       echoString:(NSString *)getAudioToVideoResponse
+                                       ) {
+    return AudioToVideoCallRequestStatus;//0: waiting, 1: accepted, 2:rejected
 }
 
 #pragma mark - RTCAudioSessionDelegate

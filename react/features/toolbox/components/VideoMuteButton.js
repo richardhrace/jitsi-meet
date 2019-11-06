@@ -83,6 +83,14 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
                 'keyboardShortcuts.videoMute');
     }
 
+    componentDidUpdate(oldProps) {
+        const newProps = this.props
+        if(oldProps._audioToVideoResponse !== newProps._audioToVideoResponse) {
+          if (newProps._audioToVideoResponse !== "accepted") return;
+          this._setVideoMuted(false);
+        }
+    }
+
     /**
      * Unregisters the keyboard shortcut that toggles the video muting.
      *
@@ -140,14 +148,15 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
      * @protected
      * @returns {void}
      */
-    async _setVideoMuted(videoMuted: boolean) {
+    _setVideoMuted(videoMuted: boolean) {
         const { AudioMode } = NativeModules;
-        const { sendInvitation } = AudioMode; 
+        const { sendAudioToVideoRequest } = AudioMode;
+        const { _audioToVideoResponse } = this.props;
 
- 
-        const isFriendAccepted = await sendInvitation();
-
-        if (!isFriendAccepted) return;
+        if (videoMuted === false && _audioToVideoResponse !== "accepted") {
+            sendAudioToVideoRequest();
+            return;
+        }
 
         sendAnalytics(createToolbarEvent(VIDEO_MUTE, { enable: videoMuted }));
         if (this.props._audioOnly) {
@@ -186,11 +195,16 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
 function _mapStateToProps(state): Object {
     const { enabled: audioOnly } = state['features/base/audio-only'];
     const tracks = state['features/base/tracks'];
+    const { AudioMode } = NativeModules;
+    const { getAudioToVideoResponse } = AudioMode; 
+
+    const _audioToVideoResponse = getAudioToVideoResponse();
 
     return {
         _audioOnly: Boolean(audioOnly),
         _videoMuted: isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO),
-        _settings: state['features/base/settings']
+        _settings: state['features/base/settings'],
+        _audioToVideoResponse,
     };
 }
 
